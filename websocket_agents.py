@@ -34,9 +34,9 @@ class WebSocketEmitter(WebSocketAgent):
     async def send_message(self, message):
         async with websockets.connect(self.socketURI) as websocket:
             print(f"Sending a message to server at {self.socketURI}")
-            await self.send_formatted_message(websocket, message)#websocket.send("python/Hello world!")
+            await self.send_formatted_message(websocket, message)
 
-            # This returns the answer further actions
+            # This returns the answer for further actions
             return await websocket.recv()
 
 if __name__ == "__main__":
