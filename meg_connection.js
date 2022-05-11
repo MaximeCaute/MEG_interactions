@@ -27,7 +27,16 @@ function tryGetMessage(followUp){
   });
 }
 
+function clearServerBuffer(){
+  var socket = new WebSocket(`ws://${SERVER_ADRESS}:${SERVER_PORT}/`);
+
+  socket.addEventListener('open', function (event) {
+    socket.send(RECEIVER_ID + ID_MESSAGE_DELIMITER);
+  });
+}
+
 console.log("Asking for next message... will be printed upon arrival")
 
 // Here we ask to print (**after**) answer, but could be about anything.
+clearServerBuffer()
 tryGetMessage(console.log)
