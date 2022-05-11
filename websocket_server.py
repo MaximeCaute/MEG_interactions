@@ -5,6 +5,7 @@ SEND_ID = "python"
 RECEIVE_ID = "js"
 SERVER_ADRESS = "localhost"
 SERVER_PORT = 8000
+ID_MESSAGE_DELIMITER = "/"
 
 ERROR_CODE = "404"
 OK_CODE = "200"
@@ -15,7 +16,7 @@ message_buffer = [None]
 
 async def handler(websocket, path):
     entry = await websocket.recv()
-    (source_ID, data) = entry.split("/")
+    (source_ID, data) = entry.split(ID_MESSAGE_DELIMITER)
 
     if (source_ID == SEND_ID):
         message_buffer[0] = data
