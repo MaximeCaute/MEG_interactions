@@ -1,26 +1,30 @@
 import asyncio
 import websockets
 
-PYTHON_SOURCE_ID = "python"
+SEND_ID = "python"
+RECEIVE_ID = "js"
+SERVER_ADRESS = "localhost"
+SERVER_PORT = 8000
 
-# create handler for each connection?
+ERROR_CODE = "404"
+OK_CODE = "200"
+
+# Simple server that can receives and store messages to send them
 
 message_buffer = [None]
 
 async def handler(websocket, path):
     entry = await websocket.recv()
-
     (source_ID, data) = entry.split("/")
 
-    if (source_ID == PYTHON_SOURCE_ID):
+    if (source_ID == SEND_ID):
         message_buffer[0] = data
         print(f"Data received from {source_ID} as:  {data}! Saved to buffer...")
 
-        await websocket.send("200")
-    elif source_ID == "js":
+        await websocket.send(OK_CODE)
+    elif source_ID == RECEIVE_ID:
         if(message_buffer[0] == None):
-            print("send")
-            await websocket.send("404")
+            await websocket.send(ERROR_CODE)
         else:
             await websocket.send(message_buffer[0])
             print(f"Sent data from buffer: {message_buffer[0]}")
@@ -30,21 +34,8 @@ async def handler(websocket, path):
 
     return data
 
-# async def js_handler(websocket, path):
-#     entry = await websocket.recv()
-#     # TODO waiter
-#     while message_buffer[0] == None:
-#         pass
-#     await websocket.send(message_buffer[0])
-#     message_buffer[0] = None
-
-
-start_server = websockets.serve(handler, "localhost", 8000)
-# start_server_js = websockets.serve(js_handler, "localhost", 8080)
-
-
+start_server = websockets.serve(handler, SERVER_ADRESS, SERVER_PORT)
+print(f"Starting server at address {SERVER_ADRESS}:{SERVER_PORT}")
 
 asyncio.get_event_loop().run_until_complete(start_server)
-# asyncio.get_event_loop().run_until_complete(start_server_js)
-
 asyncio.get_event_loop().run_forever()
