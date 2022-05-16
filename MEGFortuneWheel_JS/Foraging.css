@@ -1,0 +1,413 @@
+/*
+    Created on : 17-Feb-2017, 17:01:35
+    Author     : mgarvert
+*/
+
+
+/*
+html {
+    background: url(images/empty.png); background/bg0.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}*/
+html {
+    height: 100%;
+    width: 100%
+}
+
+body {
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    /*width: 60%;
+    //margin: 50px auto 50px auto; */
+    text-align: center;
+    color: black;
+    background-size: 100%;
+    padding: 0;
+    height: 100%;
+    /* need to define this as 100% as otherwise next percentages don't work */
+    width: 100%
+}
+
+/*
+#checkDisplayDiv{
+  position:absolute;
+  top:70%;
+  left:20%;
+  font-size:20px;
+  width:40%;
+}
+*/
+
+#displayTestCanvasDIV {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 40%;
+    height: 40%;
+}
+
+/* ------------------------------------------
+DIVs for LOCAL participant info
+--------------------------------------------*/
+#GetParticipantInfo_Local {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    text-align: left;
+    /*  background-color:rgb(173, 224, 237) */
+}
+
+/* ------------------------------------------
+DIVs for INSTRUCTIONS
+--------------------------------------------*/
+#landingPageDiv,
+#questionnaireInfoDiv_Local,
+#questionnaireInfoDiv_Internet {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    text-align: left;
+}
+
+#questionnaireInfoDiv_Local,
+#questionnaireInfoDiv_Internet {
+    color: blue;
+}
+
+/*
+#FinalScreenDiv_Internet,#FinalScreenDiv_Local{
+  position:absolute;
+  height:100%;
+  width:100%;
+}
+*/
+#instructionsDiv {
+    width: 80%;
+    height: 90%;
+    position: relative;
+    top: 5%;
+    display: block;
+    margin: auto;
+}
+
+#instrPicsDiv {
+    width: 100%;
+    height: 70%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+}
+
+.instrPicsClass {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+#instrTextsDiv {
+    width: 100%;
+    height: 20%;
+    position: absolute;
+    top: 70%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#instrButtonsDiv {
+    width: 100%;
+    height: 10%;
+    position: absolute;
+    top: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#dialog-confirm {
+    display: block;
+    position: absolute;
+    top: 40vh;
+    left: 20vw;
+    width: 60vw;
+    text-align: left;
+    font-size: 25px;
+}
+
+/* ------------------------------------------
+DIVs for Multiple choice test
+--------------------------------------------*/
+#quizDiv {
+    width: 80%;
+    height: 90%;
+    position: relative;
+    top: 5%;
+    display: block;
+    margin: auto;
+}
+
+#quizPicDiv {
+    width: 100%;
+    height: 55%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+}
+
+.mcqPicsClass {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+
+#quizTextDiv {
+    width: 100%;
+    height: 35%;
+    position: absolute;
+    top: 55%;
+    left: 0%;
+    vertical-align: top;
+    display: inline-block;
+    margin: auto;
+    text-align: left;
+}
+
+#quizButtonsDiv {
+    width: 100%;
+    height: 10%;
+    position: absolute;
+    top: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+/* ------------------------------------------
+DIVs for FORAGING TASK
+--------------------------------------------*/
+/* I considered using .class, but jquery cannot act on the visibility of this, so a list of divs is the only way to do it */
+#forageDiv {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+    display: block;
+    margin: none;
+    left: 0%;
+}
+
+#TaskInstrReminder {
+    width: 100%;
+    height: 10%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    text-align: left;
+    font-size: 80%;
+}
+
+#forageOfferDiv {
+    width: 18%;
+    height: 20%;
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: absolute;
+    top: 39%;
+    left: 40%;
+    font-weight: bold;
+    /*
+    border-width: 1px;
+    border-style:solid ;
+    border-color:black;
+    */
+}
+
+#forageWheelDiv {
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    top: 10%;
+    left: 79%;
+    background-color: blue;
+    /*
+    border-width: 1px;
+    border-style:solid ;
+    border-color: silver;
+    */
+}
+
+#gameButtonsDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 18%;
+    height: 20%;
+    position: absolute;
+    /*
+    border-width: 1px;
+    border-style:solid ;
+    border-color: yellow;
+    */
+}
+
+button {
+    font-size: 100%;
+    border-radius: 3%;
+}
+
+#forageCostDiv {
+    width: 18%;
+    height: 20%;
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: absolute;
+    top: 39%;
+    left: 40%;
+    color: red;
+}
+
+#forageDrawDiv {
+    width: 18%;
+    height: 20%;
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: absolute;
+    top: 39%;
+    left: 40%;
+    color: green;
+}
+
+#statusBarDiv {
+    width: 100%;
+    height: 10%;
+    left: 0%;
+    top: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    visibiliy: hidden;
+    ;
+}
+
+#totalPointsLabel,
+#currentPoints {
+    margin: 5px;
+    visibility: hidden;
+}
+
+
+/* DIVS for FINISHING TASK*/
+finishDiv {
+    width: 80%;
+    height: 90%;
+    position: relative;
+    top: 5%;
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+
+
+/*/* Set the duration of the odometer in seconds */
+*/
+/*.odometer.odometer-auto-theme.odometer-animating-up .odometer-ribbon-inner, .odometer.odometer-theme-minimal.odometer-animating-up .odometer-ribbon-inner,*/
+/*.odometer.odometer-auto-theme.odometer-animating-down.odometer-animating .odometer-ribbon-inner, .odometer.odometer-theme-minimal.odometer-animating-down.odometer-animating .odometer-ribbon-inner {*/
+/*  -webkit-transition-duration: 1s !important;*/
+/*  -moz-transition-duration: 1s !important;*/
+/*  -ms-transition-duration: 1s !important;*/
+/*  -o-transition-duration: 1s !important;*/
+/*  transition-duration: 1s !important*/
+/*}*/
+
+#participantInfoSheet {
+    line-height: 1.5;
+    padding-left: 25%;
+    padding-right: 25%
+}
+
+/*FOR INFO TABLES*/
+
+#submitOrQuitText2 {
+    color: #FF0000
+}
+
+.infoTable {
+    /*border: solid 1px #DDEEEE;*/
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 60%;
+}
+
+.infoTable thead th {
+    /*background-color: #DDEFEF;*/
+    /*border: solid 1px #DDEEEE;*/
+    color: #336B6B;
+    padding: 15px;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    font-size: 30px;
+    /*padding-bottom: 10px;*/
+}
+
+.infoTable tbody {
+    /*border: solid 1px #DDEEEE;*/
+    color: #333;
+    padding: 30px;
+    padding-right: 50px;
+    /*background-color: #f5f5f5;*/
+}
+
+th {
+    padding-top: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 20px;
+    text-align: left;
+    vertical-align: top;
+}
+
+#test {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 48%;
+    left: 48%;
+    background: green;
+    display: flex;
+}
+
+#cercle {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 48%;
+    left: 48%;
+    border-radius: 20px;
+    background: green;
+    display: block;
+}
+
+#goForwardButton {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    display: block;
+}
