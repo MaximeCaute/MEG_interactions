@@ -197,10 +197,8 @@ DIVs for FORAGING TASK
     width: 100%;
     height: 100%;
     position: absolute;
-    top: 0%;
     display: block;
     margin: none;
-    left: 0%;
 }
 
 #TaskInstrReminder {
@@ -233,12 +231,12 @@ DIVs for FORAGING TASK
 }
 
 #forageWheelDiv {
-    width: 80%;
-    height: 80%;
+    width: 60%;
+    height: 60%;
     position: absolute;
-    top: 10%;
-    left: 79%;
-    background-color: blue;
+    top: 20%;
+    left: 45%;
+    background-color: blue
     /*
     border-width: 1px;
     border-style:solid ;
@@ -405,9 +403,12 @@ th {
     display: block;
 }
 
-#goForwardButton {
-    position: absolute;
-    top: 15%;
-    left: 15%;
-    display: block;
+#square {
+    width:20px;
+    height:20px;
+    position:absolute;
+    top:97%;
+    left:98%;
+    background:yellow;
+    display:none;
 }

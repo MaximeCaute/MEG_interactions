@@ -11,7 +11,7 @@ var settings = {
     colors: ['rgb(255,99,132)','rgb(224,85,114)','rgb(168,65,87)'],
     counterDelay:0,
     nextButtonTrialDelay: 3, // delay betwenn when one trial is finished and when participants can move on to the next trial
-    allowFirstRespDelay: [2, 3], // range of delays until participants can make a response
+    allowFirstRespDelay: [3000, 6000], // range of delays until participants can make a response
     pointer:{ // the little pointer that spins and shows participants what their new alternative is
         length:0.2,// percentage
         width: 10, //pixels
@@ -30,11 +30,11 @@ var settings = {
 
 // All labels for buttons etc. in one place
 var stimuliLabels = {
-    offer: "Gains actuels: ", //"Current win: ",
+    offer: "", //"Current win: ",
     redraw: "Faire tourner la roue", //"Spin again",
     accept: "Encaisser les gains" , //"Bank win",
-    cost: "Coût pour faire tourner: " , //"Cost to spin: ",
-    remaining:"Tours de roue restants: ", // "Remaining spins: ",
+    cost: "" , //"Cost to spin: ",
+    remaining:"Tours :", // "Remaining spins: ",
     title: "Lucky wheel",
     nextTrial: "Prochaine manche"
 };

@@ -8,23 +8,24 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!--  <link id="alertStyleSheet" rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
   <script src="jatos.js"></script>
-  <script  src="ExptSettings.js"  type="text/javascript"></script>
-  <script  src="ForagingFunctions.js"  type="text/javascript"></script>
-  <script  src="JS_questionnaires.js"  type="text/javascript"></script>
-  <script  src="Chart.js"  type="text/javascript"></script>
-  <script  src="Chart.PieceLabel.js"  type="text/javascript"></script>
-  <script  src="MessageFromWebsocket.js"  type="text/javascript"></script>
-<!--  <script  src="odometer.min.js"  type="text/javascript"></script>-->
-  <script  src="survey.jquery.js"  type="text/javascript"></script>
+  <script  src="Javascript/Basic/ExptSettings.js"  type="text/javascript"></script>
+  <script  src="Javascript/Basic/ForagingFunctions.js"  type="text/javascript"></script>
+  <script  src="Javascript/Questionnaires/JS_questionnaires.js"  type="text/javascript"></script>
+  <script  src="Javascript/Libraries/Chart.js"  type="text/javascript"></script>
+  <script  src="Javascript/Libraries/Chart.PieceLabel.js"  type="text/javascript"></script>
+  <script  src="Javascript/MEG_package/MessageFromWebsocket.js"  type="text/javascript"></script>
+  <script  src="Javascript/MEG_package/Sequential.js"  type="text/javascript"></script>
+<!--  <script  src="Libraries/odometer.min.js"  type="text/javascript"></script>-->
+  <script  src="Javascript/Questionnaires/survey.jquery.js"  type="text/javascript"></script>
 
 <!--
   <link id="styleSheetInUse" rel="stylesheet" href="Foraging.css" type="text/css">
   <link id="styleSheet2" rel="stylesheet" href="odometer-theme-car.css">
 
 -->
-  <link id="styleSheetGame" rel="stylesheet" href="Foraging.css" type="text/css">
+  <link id="styleSheetGame" rel="stylesheet" href="Styles/Foraging.css" type="text/css">
 <!--  <link id="styleSheetOdometer" rel="stylesheet" href="odometer-theme-car.css">-->
-  <link id="styleSheetQuestionnaire" rel="stylesheet" href="bootstrap.min.css">
+  <link id="styleSheetQuestionnaire" rel="stylesheet" href="Styles/bootstrap.min.css">
 
 
 
@@ -170,6 +171,7 @@
   <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   FORAGING GAME divs
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+  <div id="square"></div>
   <div id="forageDiv"   style="display:none">
   
 <!--    <div id="TaskInstrReminder">-->
@@ -188,7 +190,6 @@
 <!--    Veuillez ne pas rafraîchir la page web, ceci effacera vos données.-->
 <!---->
 <!--    </div>-->
-
     <div id="forageWheelDiv"> <!-- Wrapping the canvas in a DIV because the chart app otherwise ignores the size! -->
       <div id="cercle">
       </div>
@@ -203,7 +204,7 @@
     </div>
     <div id="gameButtonsDiv" style="display:none">
       <button type="button" id="redrawButton" onclick="redrawSample()" disabled> Redraw </button>
-      <button type="button" id="nextTrialButton" onclick="runForagingTask()" disabled> Next trial </button>
+      <!-- <button type="button" id="nextTrialButton" onclick="runForagingTask()" disabled> Next trial </button> -->
       <button type="button" id="acceptButton" onclick="acceptOffer()" disabled>  Accept offer</button>
       <button type="button" id="btnNext" onclick="next()"> Next </button>
       <button type="button" id="btnPrev" onclick="previous()"> Previous </button>
@@ -551,7 +552,7 @@
     <br><br><br>Please complete all questions before continuing with the experiment.<br>
     <button type="button" id="confirmButton-intro"  class="allButtons" style="margin:auto;" onclick="closeDialog_return();">Return to questions</button><br><br>
   </div>
-  <script  src="ForagingRun.js"  type="text/javascript"></script>
+  <script  src="Javascript/Basic/ForagingRun.js"  type="text/javascript"></script>
 </body>
 </html>
 <script>

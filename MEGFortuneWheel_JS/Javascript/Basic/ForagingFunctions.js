@@ -44,7 +44,7 @@ function loadFiles() {
   var width = parseInt(cs.getPropertyValue('width'), 10);
   var height = parseInt(cs.getPropertyValue('height'), 10);
   settings.forageWheelCnvs.height = height;
-  settings.forageWheelCnvs.width = height;
+  settings.forageWheelCnvs.width = width;
 
   // Set the button labels
   $("#redrawButton").html(stimuliLabels.redraw);
@@ -979,6 +979,9 @@ function createEnvironment(ctr, cnvs) {
 }
 
 function redrawSample() {
+  if (!canRespond) return
+  
+  triggerLuminousFlash()
   var ctr = tSet.trialcounter;
   var cta = tSet.task;
   // disable the buttons
@@ -1119,7 +1122,10 @@ function redrawSample() {
       $('#acceptButton').prop('disabled', false);
     }
   }
+  canRespond = false
+  currentStep=5
   waitForWebSocketMessage()
+  setCircleToBlack()
 }
 
 function disableButtons() {
@@ -1141,8 +1147,9 @@ function updateAngle(delta) {
 }
 
 function acceptOffer() {
-  if (!canAccept) return
+  if (!canRespond) return
 
+  triggerLuminousFlash()
   var ctr = tSet.trialcounter;
   var cta = tSet.task;
   // HERE BEFORE AND IT WORKED FINE: tSet.trialcounter++; // ready to go on to next trial
@@ -1182,6 +1189,9 @@ function acceptOffer() {
     }, settings.nextButtonTrialDelay); // this delay is set to be the same as the hard-coded duration of the otometer so that it appears when the update is done
   }, settings.counterDelay);
   //    runForagingTask();
+  currentStep=6
+  canRespond = false
+  setCircleToBlack()
   waitForWebSocketMessage()
 }
 
@@ -1261,64 +1271,6 @@ function setupForagingTask() {
   tSet.behavior.RTs = Array2D(data.sched[1].PatchMags.length, 11);
   tSet.behavior.firstRespDelay = Array2D(data.sched[0].PatchMags.length, 1);
   data.pointCounter = 0;
-}
-
-// Code for sequential presentation
-
-var currentSequence = 0
-var canAccept = false
-
-function next() {
-  currentSequence++
-  sanatizeCurrentSequence()
-  updateSequence()
-}
-
-function previous() {
-  currentSequence--
-  sanatizeCurrentSequence()
-  updateSequence()
-}
-
-function sanatizeCurrentSequence() {
-  if (currentSequence > 4) currentSequence = 1
-  else if (currentSequence < 1) currentSequence = 4
-}
-
-function updateSequence(targetSequence) {
-  console.log("updateUi")
-
-  resetSequenceState()
-
-  if (targetSequence == 1) {
-    $('#forageOfferDiv').show()
-  } else if (targetSequence == 2) {
-    $('#forageCostDiv').show()
-  } else if (targetSequence == 3) {
-    $('#forageDrawDiv').show()
-  } else if (targetSequence == 4) {
-    $('#forageWheelCanvas').show()
-    setTimeout(allowAcceptation, 3000)
-  }
-}
-
-function resetSequenceState() {
-  canAccept = false
-
-  $("#cercle").css("background", "black")
-  $('#forageWheelCanvas').hide()
-  $('#forageCostDiv').hide()
-  $('#forageDrawDiv').hide()
-  $('#forageOfferDiv').hide()
-}
-
-function setCircleToGreen() {
-  $("#cercle").css("background", "green")
-}
-
-function allowAcceptation() {
-  setCircleToGreen()
-  canAccept = true
 }
 
 // Function to replace HTML buttons by MEG button via websockets
