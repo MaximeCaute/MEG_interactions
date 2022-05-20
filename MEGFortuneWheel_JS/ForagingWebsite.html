@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Foraging Study</title>
+
+  <!-- External scripts (i.e. not within the folder of this specific study) to append-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--  <link id="alertStyleSheet" rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+  <script src="jatos.js"></script>
+  <script  src="Javascript/Basic/ExptSettings.js"  type="text/javascript"></script>
+  <script  src="Javascript/Basic/ForagingFunctions.js"  type="text/javascript"></script>
+  <script  src="Javascript/Questionnaires/JS_questionnaires.js"  type="text/javascript"></script>
+  <script  src="Javascript/Libraries/Chart.js"  type="text/javascript"></script>
+  <script  src="Javascript/Libraries/Chart.PieceLabel.js"  type="text/javascript"></script>
+  <script  src="Javascript/MEG_package/MessageFromWebsocket.js"  type="text/javascript"></script>
+  <script  src="Javascript/MEG_package/Sequential.js"  type="text/javascript"></script>
+<!--  <script  src="Libraries/odometer.min.js"  type="text/javascript"></script>-->
+  <script  src="Javascript/Questionnaires/survey.jquery.js"  type="text/javascript"></script>
+
+<!--
+  <link id="styleSheetInUse" rel="stylesheet" href="Foraging.css" type="text/css">
+  <link id="styleSheet2" rel="stylesheet" href="odometer-theme-car.css">
+
+-->
+  <link id="styleSheetGame" rel="stylesheet" href="Styles/Foraging.css" type="text/css">
+<!--  <link id="styleSheetOdometer" rel="stylesheet" href="odometer-theme-car.css">-->
+  <link id="styleSheetQuestionnaire" rel="stylesheet" href="Styles/bootstrap.min.css">
+
+
+
+
+</head>
+<body> <!--onLoad="loadFiles()"> --> <!-- when the website has loaded, execute the first javascript function which will then allow starting the experiment -->
+  <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   STUDY LANDING PAGE
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+  <div id="landingPageDiv" style="display:inline">
+    <div id ="landingPage_Local" style="text-align:left;display:none">
+      <!--
+      <br> Welcome to the 'Lucky Wheel' game.
+      <br><br>
+      Format:
+      <br>
+      1) Read instructions for playing the game.
+      <br><br>
+      2) A few practice trials.
+      <br> <br>
+      3) Quiz to check that everything is clear about how to do the task.
+      If it isn't you'll get a chance to read the instructions again and ask with the experimenter.
+      <br><br>
+      4) Play the 'lucky wheel' game for about 30 min.
+      <br><br>
+      5) Short questionnaire about your experience of playing the game.
+      <br><br>
+      6) Four questionnaires about your recent mental health.
+      <br><br>
+    </div>
+  -->
+    <br> Bienvenue au jeu de la « Roue de la Fortune ».
+    <br><br>
+  </div>
+
+    <div id ="landingPage_Internet"  style="display:none">
+      Welcome to the experiment. <br>
+      The experiment will launch <div id="yesFullScreen" style="display:none">in full-screen mode </div>when you click the 'Begin study' button below.<br><br>
+
+    </div>
+    <button type="button" id="startExperimentButton"  style="display:inline" onclick="startExperiment()" disabled>Commencer</button>
+  </div>
+
+
+  <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  Instructions divs
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+  <div id="instructionsDiv" style="display:none">
+    <div id="instrTextsDiv">
+      <div id="t0" class="instrTextsClass">
+        <!-- Click through the task instructions using the buttons at the bottom. -->
+        Cliquer sur suivant pour accéder aux instructions de la tâche en utilisant les boutons ci- dessous.
+      </div>
+      <div id="t1" class="instrTextsClass">
+        <!--
+        In this study, you will play 100 rounds of the 'Lucky wheel' game. Your goal is to win as many points as possible.
+        These points will later be translated into money.
+        <br/> The counter at the bottom of the screen (blue arrow) shows your total points won so far.
+      -->
+      Dans cette étude, vous allez jouer au jeu de la « roue de la fortune ». Votre objectif est d’obtenir le maximum de points possibles.
+      <br>
+      Le compteur en bas de l’écran (flèche bleue) indique les points totaux que vous avez cumulés.
+
+      </div>
+      <div id="t2" class="instrTextsClass">
+        <!--
+        In each round, you will see a ‘lucky wheel’ (blue arrow).
+        <br/>The numbers on the segments of the wheel tell you how many points they are worth. The size of the segment shows how likely it is that the spinner will land there.
+        <br/>What you have to do is to decide whether to bank the ‘current win’ (shown in the top right of the screen) by clicking on 'Bank win'.
+        <br/> Or whether you want to try your luck and spin the ‘lucky wheel’.
+        <br/> You can only make your selection after 3-6 seconds; before that the buttons will be disabled (greyed out). Take as long as you need to make your choice.
+      -->
+      A chaque manche, vous verrez une « roue de la fortune » (flèche bleue).
+      <br>
+      Le chiffre indiqué sur la part de camembert vous indique combien de points vaut cette part. Sa taille indique la probabilité que la flèche tombe sur cette part.
+      <br>
+      Dans cette situation, deux options se présentent à vous:
+       <br>
+      Soit vous souhaitez encaisser les gains actuels (en haut à droite de l’écran) en cliquant sur « encaisser les gains ».
+      <br>
+      Soit vous souhaitez faire tourner la roue pour tenter votre chance.
+      <br>
+      Vous ne pouvez faire votre sélection que 3-6 secondes après le début de la manche; avant cela les boutons seront désactivés (grisés). Prenez autant de temps que nécessaire pour faire votre choix.
+      </div>
+      <div id="t3" class="instrTextsClass">
+        <!-- Let's look at what happens if you choose to <b>bank the win</b>. -->
+        Regardons ce qui se passe si vous choisissez d’<b>encaisser</b> les gains.
+
+      </div>
+      <div id="t4" class="instrTextsClass">
+        <!-- If you choose to <b> bank the win</b>, it will get added to your total points and you can move on to the next round. -->
+        Si vous choisissez d’<b>encaisser les gains</b>, les gains seront ajoutés à vos points totaux et vous pourrez passer à la prochaine manche.
+
+      </div>
+      <div id="t5" class="instrTextsClass">
+        <!-- Instead, you can also choose to <b> Spin again</b>. -->
+        Autrement, vous pouvez aussi choisir de <b>faire tourner la roue</b>.
+
+      </div>
+      <div id="t6" class="instrTextsClass">
+        <!-- If you click on <b>spin again</b>, the points listed in red as ‘cost to spin’ will be subtracted from your total points.
+        <br/> Then an arrow will start spinning in the middle of the wheel.
+        When it lands on one of the pie segments, this will be your new ‘current win’.
+        <br/> Every time you spin the wheel, the number of ‘remaining spins’ (in green on the bottom right) will be reduced. -->
+        Si vous cliquer sur <b>faire tourner la roue</b>, le nombre de points (en rouge) figurants sous « coût pour faire tourner » seront soustraits de vos points totaux.
+        <br> Une flèche commencera alors à tourner au milieux de la roue. Lorsqu’elle s’arrêtera sur une des parts de la roue, la valeur affichée sur cette part sera reportée dans « gains actuels ».
+        <br> Chaque fois que vous faites tourner la roue, le nombre de « Tours de roue restants » (en vert, en bas à droite) sera diminué.
+      </div>
+      <div id="t7" class="instrTextsClass">
+        <!--
+        Note how even before the very first spin of each round there is already a 'current win' that you could choose to bank.
+        <br/> Or alternatively, you can decide to 'spin again'.
+      -->
+      Notez <b>qu’avant de faire tourner la roue</b>, à chaque manche, vous pouvez choisir d'encaisser la valeur qui figure déjà dans « gains actuels ».
+
+      </div>
+      <div id="t8" class="instrTextsClass">
+        <!-- Either read these instructions again, or proceed to 6 practice rounds.
+        <br/> These will be followed by a multiple choice test to check whether you understand the task. -->
+        Vous pouvez relire les instructions, ou poursuivre en faisant 6 manches d’essai.
+        <br> Ces manches seront suivies d’un QCM pour vérifier que vous avez bien compris la tâche.
+      </div>
+    </div>
+    <div id ="instrPicsDiv">
+      <img id="s0" src="pictures/instructions/Slide0.jpeg"  class="instrPicsClass" alt="Problems showing instructions. Please read through the text best you can and then do the training rounds"/>
+      <img id="s1" src="pictures/instructions/Slide1.jpeg" class="instrPicsClass" alt="Problems showing instructions. Please read through the text best you can and then do the training rounds"/>
+      <img id="s2" src="pictures/instructions/Slide2.jpeg" class="instrPicsClass" alt="Problems showing instructions. Please read through the text best you can and then do the training rounds"/>
+      <img id="s3" src="pictures/instructions/Slide3.jpeg" class="instrPicsClass" alt="Problems showing instructions. Please read through the text best you can and then do the training rounds"/>
+      <img id="s4" src="pictures/instructions/Slide4.jpeg" class="instrPicsClass" alt="Problems showing instructions. Please read through the text best you can and then do the training rounds"/>
+      <img id="s5" src="pictures/instructions/Slide5.jpeg" class="instrPicsClass" alt="Problems showing instructions. Please read through the text best you can and then do the training rounds"/>
+      <img id="s6" src="pictures/instructions/Slide6.jpeg" class="instrPicsClass" alt="Problems showing instructions. Please read through the text best you can and then do the training rounds"/>
+      <img id="s7" src="pictures/instructions/Slide7.jpeg" class="instrPicsClass" alt="Problems showing instructions. Please read through the text best you can and then do the training rounds"/>
+      <img id="s8" src="pictures/instructions/Slide8.jpeg" class="instrPicsClass" alt="Problems showing instructions. Please read through the text best you can and then do the training rounds"/>
+
+    </div>
+    <div id="instrButtonsDiv">
+      <button type="button" id="backwInstrButton" onclick="backwardInstr()"> &laquo; Précédent </button>
+      <button type="button" id="forwInstrButton"  onclick="forwardInstr()"> Suivant &raquo;</button>
+      <button type="button" id="startTrainingButton" onclick="proceedInExpt()"> Commencer les manches d'entrînement </button> <!-- Start practice rounds -->
+    </div>
+  </div>
+
+  <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  FORAGING GAME divs
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+  <div id="square"></div>
+  <div id="forageDiv"   style="display:none">
+  
+<!--    <div id="TaskInstrReminder">-->
+<!--     -->
+<!--      Either accept the current win or spin again. <br/>-->
+<!--      Take into account the <font color="red"> cost</font> of spinning and how many spins still <font color="green"> remain</font>.<br/>-->
+<!--      You have completed <span id="ShowTrialCount"> 0 </span> out of <span id="ShowMaxTrialCount"> 100 </span> rounds. <br/>-->
+<!--      Please do not refresh the webpage as this will delete your data.-->
+<!--    -->
+<!--    Choisissez d’accepter les gains actuels ou faites tourner la roue.-->
+<!--    <br>-->
+<!--    Prenez en compte le <font color="red">coût</font> pour faire tourner la roue et combien de tours il vous <font color="green">reste</font>.-->
+<!--      <br>-->
+<!--    Vous avez complété <span id="ShowTrialCount"> 0 </span> sur <span id="ShowMaxTrialCount"> 100 </span> manches.-->
+<!--    <br>-->
+<!--    Veuillez ne pas rafraîchir la page web, ceci effacera vos données.-->
+<!---->
+<!--    </div>-->
+    <div id="forageWheelDiv"> <!-- Wrapping the canvas in a DIV because the chart app otherwise ignores the size! -->
+      <div id="cercle">
+      </div>
+      <div id="forageOfferDiv">Offer</div>
+      <div id="forageCostDiv">Cost </div>
+      <div id="forageDrawDiv">Draws </div>
+      <canvas id="forageWheelCanvas" ></canvas>
+    </div>
+    <div id="statusBarDiv">
+      <div id="totalPointsLabel"> Points totaux:  </div> <!-- Total points: -->
+      <div id="currentPoints" > temp Points </div>
+    </div>
+    <div id="gameButtonsDiv" style="display:none">
+      <button type="button" id="redrawButton" onclick="redrawSample()" disabled> Redraw </button>
+      <!-- <button type="button" id="nextTrialButton" onclick="runForagingTask()" disabled> Next trial </button> -->
+      <button type="button" id="acceptButton" onclick="acceptOffer()" disabled>  Accept offer</button>
+      <button type="button" id="btnNext" onclick="next()"> Next </button>
+      <button type="button" id="btnPrev" onclick="previous()"> Previous </button>
+    </div>
+  </div>
+
+<!--  <div id="checkDisplayDiv" type="display:none">-->
+<!--    <div id="displayTestCanvasDIV">-->
+<!--      <canvas id="displayTestCanvas" ></canvas>-->
+<!--    </div>-->
+<!--    To check your that the study can be displayed correctly, please enter the LOWEST number that is shown on the wheel of fortune.-->
+<!--    <br> <br>-->
+<!--    <input type="number" id="checkDisplayNumber" name="quantity" min="1" max="50">-->
+<!--    <button type="button" id="confirmDisplay" onclick="confirmDisplay()" >   Continue </button>-->
+<!--    <div id='displaytext2' type='display:none'>-->
+<!--      Incorrect number. Please check again you have entered the correct number.-->
+<!--    </div>-->
+<!--  </div>-->
+<!---->
+<!--  <div id='failedDisplayCheckDiv' type="display:none">-->
+<!--    Unfortunately your display could not be correctly configured for the study. We apologize.-->
+<!--    <br>-->
+<!--    Please quite the study now.-->
+<!--  </div>-->
+
+  <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  MULTIPLE-CHOICE QUIZ TO CHECK TASK UNDERSTANDING
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+  <div id="quizDiv" style="display:none">
+    <div id="quizPicDiv">
+      <img  id="p0" src="pictures/MCQs/Slide0.jpeg" class="mcqPicsClass" alt="Problems showing picture. Segments ordered by size: D<A<E<B<C"/>
+      <img  id="p1" src="pictures/MCQs/Slide1.jpeg" class="mcqPicsClass" alt="Problems showing picture. Anyway not needed to answer questions."/>
+      <img  id="p2" src="pictures/MCQs/Slide2.jpeg" class="mcqPicsClass" alt="Problems showing picture. Anyway not needed to answer questions."/>
+      <img  id="p3" src="pictures/MCQs/Slide3.jpeg" class="mcqPicsClass" alt="Problems showing picture. Anyway not needed to answer questions."/>
+      <img  id="p4" src="pictures/MCQs/Slide4.jpeg" class="mcqPicsClass" alt="Problems showing picture. Anyway not needed to answer questions."/>
+      <img  id="p5" src="pictures/MCQs/Slide5.jpeg" class="mcqPicsClass" alt="Problems showing picture. Anyway not needed to answer questions."/>
+      <div  id="p6" src="pictures/MCQs/Slide6.jpeg" class="mcqPicsClass"> Unfortunately you have not answered all the questions correctly.
+        <br/>Please read through the instructions again.
+      </div>
+    </div>
+    <div id="quizTextDiv">
+    </div>
+    <div id="quizButtonsDiv">
+      <button type="button" id="lastMCQButton" onclick="backwardMCQ()"> Question précédente </button>
+      <button type="button" id="nextMCQButton" onclick="forwardMCQ()"> Question suivante </button>
+      <button type="button" id="finishMCQButton" onclick="finishMCQ()"> Soumettre la réponse </button>
+      <button type="button" id="startTaskButton" onclick="proceedInExpt()"> Commencer la tâche  </button>
+      <button type="button" id="repeatTrainingButton" onclick="proceedInExpt()"> Retourner aux instructions </button>
+    </div>
+  </div>
+
+  <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  PARTICIPANT INFO SHEET AND SURVEYJS QUESTIONNAIRES
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+  <div id="surveyContainer" style="display:none; position: relative; top:0px; margin-left:15%; margin-right:15%;"></div> <!--position: relative;margin: 0 auto; top:630px;-->
+
+  <div id="participantInfoSheet" style="display:none">
+    <h1><b>Participant Information</b></h1><br>
+    Click here to print this page:
+    <br>
+    <input type="button" onClick='window.print()'  value='Print'/> <!--class="edit-button"-->
+    <br><br>
+
+    <p style="text-align:left"><strong>1. Background and aims of the study</strong><br>
+
+      The primary aim of this study is find out more about how people learn from feedback and how this relates to
+      people’s personality traits and mood. We hope that a better understanding of these processes will, in the
+      future, contribute to the development of new approaches to improve mental wellbeing.<br><br>
+
+      This study is funded by the Medical Research Council and the Wellcome Trust.<br><br>
+
+      <strong>2. Why have I been invited to take part? </strong><br>
+
+      You have been invited because you have responded to an advert for this study. To take part in this
+      study, you need to be between 18 and 40 years old. You also need to have normal or corrected to
+      normal vision and hearing.<br><br>
+
+      <strong>3. Do I have to take part? </strong><br>
+
+      No.  You can ask questions about the study before deciding whether or not to participate by emailing
+      the principal researcher (address details below). If you do agree to participate, you may withdraw yourself
+      from the study at any time, without giving a reason and without penalty. <br><br>
+
+      <strong>4. What will happen in the study? </strong><br>
+
+      If you are happy to take part in the study, you will be asked to perform a simple computer task such as
+      rating pictures estimating a time interval, estimating how well you have performed on the computer task.
+      You will then be asked to complete questionnaires that will measure psychological traits and potential
+      psychiatric symptoms (e.g. it will ask you questions about whether or not you experience low mood or anxiety).<br><br>
+
+      This should take approximately 1h-1h30min.<br>
+      The study will take place online. <br>
+      There will not be any follow-up sessions.<br><br>
+
+      <strong>5. Are there any potential risks in taking part? </strong><br>
+
+      Psychological and/or psychiatric questionnaires may be perceived as distressing or intrusive. If you
+      experience significant distress as a result of the questionnaires, you can immediately stop the study by
+      clicking on the ‘Exit Study Now’ button without giving a reason and without penalty. In this case you
+      will still be reimbursed for your time in the study so far.<br><br>
+
+      <strong>6. Are there any benefits in taking part? </strong><br>
+
+      There will be no direct benefit to you from taking part in this research. You will not receive results or
+      psychiatric/psychological assessments from the questionnaires. <br><br>
+
+      <strong>7. Expenses and payments </strong><br>
+
+      You will be reimbursed for your time in the study via the third party website administering the study.
+      You will receive £5 per hour and a flexible bonus depending on the choices you make in the online task
+      (up to £7 per hour overall payment).<br><br>
+
+      <strong>8. What happens to the data provided? </strong><br>
+
+      The anonymous research data will be stored confidentially using password-protected computers and
+      servers. We will not store any data that can identify you (e.g. we will not ask your for your email address
+      or store your IP address). Although every reasonable effort will be taken, confidentiality during actual
+      Internet communication procedures cannot be guaranteed. Terms of use and privacy policies relevant
+      to the third-party website in use should be consulted.<br><br>
+
+      <strong>Note: Anonymity may make it very difficult or impossible to withdraw
+        data retroactively from the study after completing part or all of an online session.</strong><br><br>
+
+        Anonymized data will be published open access as part of the publication of the research to facilitate its use in future research.<br><br>
+
+        All research data and records will be stored for a minimum retention period of 3 years after publication or public release of the work of the research. The third-party website administering the study may store data on backups or server logs beyond the time frame of this research project.<br><br>
+
+        <strong>Will the research be published?</strong><br>
+
+        The research will be published in peer-reviewed journal.<br><br>
+
+        <strong>Who has reviewed this study?</strong><br>
+
+        This study has been reviewed by, and received ethics clearance through, the University of Oxford Central University Research Ethics Committee <strong>(reference number: R54722/RE001).</strong><br><br>
+
+        <strong>11.	Who do I contact if I have a concern about the study or I wish to complain?</strong><br>
+
+        If you have a concern about any aspect of this study, please speak to Dr. Jacqueline Scholl (+44 (0)1865 612715)
+        or their supervisor, Professor Matthew Rushworth (+44 (0)1865 271308 ) who will do their best to answer
+        your query. The researcher should acknowledge your concern within 10 working days and give you an
+        indication of how they intend to deal with it. If you remain unhappy or wish to make a formal complaint,
+        please contact the relevant chair of the Research Ethics Committee at the University of Oxford who will
+        seek to resolve the matter in a reasonably expeditious manner:<br><br>
+
+        Chair, <strong>Medical Sciences Inter-Divisional Research Ethics Committee</strong>; Email: ethics@medsci.ox.ac.uk;
+        Address: Research Services, University of Oxford, Wellington Square, Oxford OX1 2JD<br><br>
+
+        <strong>Further information and contact details</strong><br>
+
+        If you would like to discuss the research with someone beforehand (or if you have questions afterwards), please contact:<br><br>
+
+        Dr Jacqueline Scholl<br>
+        Department of Experimental Psychology<br>
+        Tinsley Building, Mansfield Road, Oxford, OX2 3SR<br>
+        Phone: +44 (0)1865 612715<br>
+        <a href="mailto:Jacqueline.scholl@psy.ox.ac.uk">Jacqueline.scholl@psy.ox.ac.uk</a>
+        <br>
+      </p>
+      <br><input type="checkbox" id="infoSheetCheckbox" onclick="checkBoxes()"> I have read and understood this information (please check to proceed).<br><br>
+    </div>
+
+    <div id="consentForm" style="display:none;text-align:left;margin-left:20%;margin-right:20%;">
+      <br><br><br><br>Participant Consent Form<br><br>
+      CUREC Approval Reference: R54722/RE001. <br>
+      Study title: Emotion and decision-making <br>
+      Purpose of study: Investigation into how aspects of mood and personality affect decision-making.<br><br>
+      Please read the following declarations and check the boxes if you understand and agree with them (all boxes must be checked in order to proceed with the experiment):<br><br>
+      <input type="checkbox" id="consent1" class="consentBoxes" onclick="checkBoxes()"> I have read the participant information sheet.<br>
+      <input type="checkbox" id="consent2" class="consentBoxes" onclick="checkBoxes()"> I have had opportunity to ask questions about the study, and if I have, I have received satisfactory answers to these questions.<br>
+      <input type="checkbox" id="consent3" class="consentBoxes" onclick="checkBoxes()"> I understand I can withdraw from the study at any point before, during, or after the study without penalty.<br>
+      <input type="checkbox" id="consent4" class="consentBoxes" onclick="checkBoxes()"> I understand this study has been reviewed and received ethics clearance through the University of Oxford Central University Research Ethics Committee.<br>
+      <input type="checkbox" id="consent5" class="consentBoxes" onclick="checkBoxes()"> I understand how this research will be written up and published.<br>
+      <input type="checkbox" id="consent6" class="consentBoxes" onclick="checkBoxes()"> I understand that the researchers will only collect anonymised data from me. I understand that I cannot be identified from these data.<br>
+      <input type="checkbox" id="consent7" class="consentBoxes" onclick="checkBoxes()"> I agree for my anonymised research data collected in this study to be deposited in open access archives so that it may be used in other research studies. I understand that any data that leave the research group will be fully anonymised so that I cannot be identified.<br>
+      <input type="checkbox" id="consent8" class="consentBoxes" onclick="checkBoxes()"> I understand how to raise a concern and make a complaint.<br>
+      <input type="checkbox" id="consent8" class="consentBoxes" onclick="checkBoxes()"> I agree to take part in this study.<br><br>
+    </div>
+
+    <div id="questionnaireInfoDiv_Local" style="display:none">
+      Merci d'avoir paricipé à l'expérience.
+      <br>
+      Maintenant, quelques questions sur votre expérience de jeu.
+      <br>
+
+      <button type="button" id="startQuestionnaires-button"  style="margin:auto; display:none;" onclick="proceedInExpt()">Continue</button><br>
+    </div>
+    <div id="questionnaireInfoDiv_Internet" style="display:none">
+      In the next part you will complete four questionnaires about your general mood and how you found the task.
+      <br>
+      This is a <b> very important </b> part of the study. Please take your time and try to answer as honestly as possible.
+      <br>
+      Note that some questions may repeat.
+      <br></br>
+      <button type="button" id="startQuestionnaires-button"  style="margin:auto; display:none;" onclick="proceedInExpt()">Continue</button><br>
+    </div>
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    LOCAL STUDY: READ PARTICIPANT INFORMATION
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <div id="GetParticipantInfo_Local" style="display:none">
+      <div id="GetParticipant_ID_Session_Instructions" style="display:none">
+        <!--
+        For Experimenter:
+        <br><br>
+        Please enter participant ID and session number.
+        <br><br>
+      -->
+      Pour l'experimentateur:
+      <br><br>
+      Entrer le numéro d'indentification et le numéro du calendrier experimental s'il vous plaît.
+      <br><br>
+      </div>
+
+
+      <div id="GetParticipantID_Schedule_FORM" style="display:none">
+        <form>
+          <label for="participantID_V1">Numéro d'identification:</label><br>
+          <input type="text" id="participantID_V1" name="participantID_V1"><br><br>
+          <label for="scheduleID">Calendrier experimental:</label><br>
+          <select id="scheduleID" name="scheduleID">
+            <option value="4">4</option>
+            <option value="8">8</option>
+          </select><br><br>
+
+
+          <button type="button" onclick="submitParticipantID_Schedule()" >Envoyer</button>
+         </form>
+       </div>
+
+
+
+    </div>
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    END SCREENS
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+
+    <div id="FinalScreenDiv_Local" style ="display:none">
+      <br><br><br><br>Merci de participer à l’étude.<br><br>
+      Cliquez sur le bouton ci-dessous pour terminer l'expérience.
+      <br>
+      <button type="button" class="buttons" id="finishExptButton" onclick="quitStudy()"> Finir l'expérience </button>
+    </div>
+
+    <div id="FinalScreenDiv_Internet" style ="display:none">
+      <div id="endExperiment" style="display:none">
+        <br><br><br><br>Thank you for taking part in the study.<br><br>
+        <span style="color: #FF0000">
+          (Note: Do not worry if the Prolific website says that you have timed out, once you click the button below we record your data and will pay you via the Prolific website.)
+        </span><br><br>
+        <button type="button" class="buttons" id="finishExptButton" onclick="quitStudy()"> Finish Experiment </button>
+      </div>
+    </div>
+
+    <div id="submitOrQuit" style="display:none; position: relative; margin-top: 0px; margin-left: 10%; margin-right: 10%;">
+      <div id="submitOrQuitText1">
+        <!--
+        <br><br>You have chosen to leave the experiment without finishing.<br>
+        If this is a mistake, please click "Return to study". To leave the experiment, please click on "Quit study".<br><br>
+        -->
+        <br><br>Vous avez choisi de sortir de l’expérience sans finir. <br>
+         S’il s’agit d’une erreur, veuillez cliquer sur « Retourner à l’étude ». Pour sortir de l’expérience, veuillez cliquer sur « Sortir de l’étude ».
+      </div>
+      <div id="submitOrQuitText2">
+        <br><br>
+        Thank you for taking part in our study.<br><br>
+      </div>
+      <button type="button" id="returnToStudy" onclick="returnToStudy()"> Retourner à l’étude</button><br><br>
+      <button type="button" id="quitStudyNoCode" onclick="quitStudyNoCode()">Sortir de l'étude</button>
+    </div>
+
+
+
+      <div id="commentBox" style="display:none;">
+        <!--
+        <br><br>Do you have any comments about taking part in the study that you would like us to know? (optional):<br>
+      --><br><br>
+      Avez vous des commentaires concernant cette étude que vous souhaitiez nous transmettre ? (optionnel): <br>
+        <textarea cols="75" name="comments" id="commentid"></textarea>
+        <div id="thanksComment"> Thank you for submitting your comments. Your data has been saved and you can now close your browser window </div>
+        <button type="button" id="submitComments" onclick="submitComments()">Soumettre</button>
+      </div>
+
+      <div id ="psychiatricHelpPage" style ="display:none;block; position: relative; ">
+        <br>
+        <h3>If you are concerned about your mental health, here are some contacts that you might find useful (please copy and paste the links into your browser):</h3><br>
+
+        <table class = "infoTable" align="center">
+          <thead>
+            <tr>
+              <th>Resource</th>
+              <th>Contact</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th align="left"><b>Your GP:</b> Book an appointment with your GP. They can offer advice or refer you to other more specific services to get help.<br><br></th>
+              <th align="left" width=35%;>Your GP's number<br> <br></th>
+            </tr>
+            <tr>
+              <th align="left"><b>Mind</b> provides information, guidance, and links to support services for those with living with a mental health problem or supporting someone who is.<br><br></th>
+              <th align="left">Visit: <b>https://www.mind.org.uk/</b><br><br></th>
+            </tr>
+            <tr>
+              <th align="left"><b>FRANK</b> provides friendly, confidential drugs advice.<br><br></th>
+              <th align="left">Visit: <b>http://www.talktofrank.com</b> <br>or call <b>0300 123 6600</b><br> <br></th>
+            </tr>
+            <tr>
+              <th align="left"><b>NHS Choices:</b> Enter your location to discover mental health support services near you.<br><br></th>
+              <th align="left">Visit: <b>https://www.nhs.uk/Service-Search/Mental%20health%20support/LocationSearch/330</b><br> <br></th>
+            </tr>
+            <tr>
+              <th align="left"><b>IN AN EMERGENCY:</b> If you are experiencing suicidal thoughts and think that you might be unable to keep yourself safe, visit your nearest A&E department or call emergency services.<br><br></th>
+              <th align="left">Call: <b>999</b><br> <br></th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    BUTTONS
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+
+    <button type="button" id="next-button"  style="margin:auto; display:none;" onclick="proceedInExpt()">Next</button><br>
+    <button type="button" id="goBackButton" onclick="returnToInfoPage()" style="position: relative; display:none; bottom:0;"> Retourner </button><br><br>
+<!--    <button type="button" id="exitNow" style="display:none;" onclick="exitStudyNow()"> Sortir de l'étude maintenant </button><br><br>-->
+    <!--
+    <script id="foragingRunSRC" src="/study_assets/foraging/ForagingRun.js"  type="text/javascript"></script>
+  -->
+
+
+  <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  JQUERY DIALOG BOX
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+  <div id='dialog-confirm' style="display:none"> <!--style="height:100vh; width:100vh;z-index:2000;-->
+    Text here (filled in by JS).
+    <button type="button" id="confirmButton1"  class="buttons" style="margin:auto;" onclick="closeDialog_return();">Return to questions</button><br><br>
+    <button type="button" id="confirmButton2"  class="buttons" style="margin:auto;" onclick="closeDialog_continue();">Continue anyway</button><br><br>
+  </div>
+  <div id='dialog-confirm-intro' style="display:none"> <!--for the information questions at the beginning, don't allow participants to continue if they haven't completed all questions. //style="height:100vh; width:100vh;z-index:2000;"-->
+    <br><br><br>Please complete all questions before continuing with the experiment.<br>
+    <button type="button" id="confirmButton-intro"  class="allButtons" style="margin:auto;" onclick="closeDialog_return();">Return to questions</button><br><br>
+  </div>
+  <script  src="Javascript/Basic/ForagingRun.js"  type="text/javascript"></script>
+</body>
+</html>
+<script>
+  jatos.onLoad(function () {
+    loadFiles()
+  })
+    </script>
