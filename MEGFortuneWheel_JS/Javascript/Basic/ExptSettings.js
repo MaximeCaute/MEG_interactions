@@ -7,7 +7,7 @@ var settings = {
     fullscreen: true,
     maxSchedulesIfOverLimit:5,// number of max schedules we draw randomly from if the batch session is already empty
     wheelColor: ["#009999"],//, "#00CCCC", "#00FFFF"],
-    maxTrials:150,// this is mainly for piloting, if we want to do fewer trials then there are in the schedule
+    maxTrials:5,// this is mainly for piloting, if we want to do fewer trials then there are in the schedule
     colors: ['rgb(255,99,132)','rgb(224,85,114)','rgb(168,65,87)'],
     counterDelay:0,
     nextButtonTrialDelay: 3, // delay betwenn when one trial is finished and when participants can move on to the next trial
@@ -19,10 +19,10 @@ var settings = {
         spinDuration: [3, 5] // min and max duration of pointer spinning
     },
     instr:{
-        maxCounter: 8 //how many slides in the instructions
+        maxCounter: 0 //how many slides in the instructions
     },
     mcq:{
-        maxQ: 6 // questions in multiple choice questionnaire to assess task understanding
+        maxQ: 0 // questions in multiple choice questionnaire to assess task understanding
     },
     myPoints: [], // store the odometer
     myStyleSheets:document.styleSheets
@@ -30,10 +30,10 @@ var settings = {
 
 // All labels for buttons etc. in one place
 var stimuliLabels = {
-    offer: "", //"Current win: ",
+    offer: "Offre :", //"Current win: ",
     redraw: "Faire tourner la roue", //"Spin again",
     accept: "Encaisser les gains" , //"Bank win",
-    cost: "" , //"Cost to spin: ",
+    cost: "Coût :" , //"Cost to spin: ",
     remaining:"Tours :", // "Remaining spins: ",
     title: "Lucky wheel",
     nextTrial: "Prochaine manche"
@@ -116,7 +116,7 @@ var data = {
     participantID:[], // prolific or manually entered (local) participant ID
     sessionID:[],
     sched: [],   // store the schedule participants do
-    storeBehav: [], // behaviour from tSet.behavior for training(s) and task will be stored here
+    // storeBehav: [], // behaviour from tSet.behavior for training(s) and task will be stored here
     behaviorLongFormat:[],// behaviour from tSet.behaviorLongFormat - each response is a row
     mcqAnswers:[],
     pointCounter:0,  // store how many points they have won overall

@@ -9,7 +9,7 @@ function next() {
   } else if (currentStep < 4){
     currentStep++
   } else if (currentStep == 5){
-    currentStep = 1
+    currentStep = 2
   }
     updateUi()
 }

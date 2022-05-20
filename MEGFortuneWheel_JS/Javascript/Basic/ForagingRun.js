@@ -71,13 +71,11 @@ if (settings.datatype=="Internet"){
   
   exptTimeLine.push(forageInstructions);
   exptTimeLine.push(forageTraining);
-  exptTimeLine.push(testUnderstanding);
+  // exptTimeLine.push(testUnderstanding);
 
   exptTimeLine.push(forageGame);
-
   exptTimeLine.push(qInfo_Local);
   exptTimeLine.push(WOFdebrief);
-
   exptTimeLine.push(finishExperiment);
 
 

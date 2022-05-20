@@ -100,11 +100,9 @@ function loadSchedules() {
     xhttp.open("GET", "schedules/Sched" + ischedID + ".json", true);
     xhttp.send();
   }
+
   proceedInExpt()
 }
-
-
-
 
 // Function to generate the 'batch' in JATOS if it doesn't exist yet
 function initBatchConditions() {
@@ -341,6 +339,19 @@ function saveData(triggerFlag) { //triggerFlag = whether this function was calle
   //data.exptDate.trainingDuration   = data.exptDate
   data.exptDate.numberMcqAttempts = tSet.mcq.attemptCounter;
   data.behaviorLongFormat = tSet.behaviorLongFormat;
+
+
+  // // Init empty nSearches array to toto
+  // const trialCount = data.sched[1].PatchMags.length;
+  // console.log("trialCount=" + trialCount);
+  // let nSearches = data.storeBehav[1].behavior.nSearches
+  // for (index = 0; index < nSearches.length; index++) {
+  //   if (typeof nSearches[index] === 'object')  {
+  //     console.log("isNaN=" + nSearches[index]);
+  //     nSearches[index] = null;
+  //   }
+  // }
+
   var resultJson = JSON.stringify(data);
   if (triggerFlag == "quittingEarly") {
     jatos.submitResultData(resultJson).then(() => showQuitEarlyScreen(), () => saveData("quittingEarly")) //{data:"resultJson"}
@@ -665,19 +676,20 @@ function showInstructions() {
   $('#' + tSet.instr.pics[tSet.instr.counter].id).show();
 
   // update the buttons
-  if (tSet.instr.counter === 0) {
-    $('#backwInstrButton').prop('disabled', true);
-    $('#forwInstrButton').prop('disabled', false);
-    $('#startTrainingButton').hide();
-  } else if (tSet.instr.counter === settings.instr.maxCounter) {
-    $('#backwInstrButton').prop('disabled', false);
-    $('#forwInstrButton').hide();
-    $('#startTrainingButton').show();
-  } else {
-    $('#backwInstrButton').prop('disabled', false);
-    $('#forwInstrButton').prop('disabled', false);
-    $('#startTrainingButton').hide();
-  }
+  $('#startTrainingButton').show();  //shortcut for MEG beta version
+  // if (tSet.instr.counter === 0) {
+  //   $('#backwInstrButton').prop('disabled', true);
+  //   $('#forwInstrButton').prop('disabled', false);
+  //   $('#startTrainingButton').hide();
+  // } else if (tSet.instr.counter === settings.instr.maxCounter) {
+  //   $('#backwInstrButton').prop('disabled', false);
+  //   $('#forwInstrButton').hide();
+  //   $('#startTrainingButton').show();
+  // } else {
+  //   $('#backwInstrButton').prop('disabled', false);
+  //   $('#forwInstrButton').prop('disabled', false);
+  //   $('#startTrainingButton').hide();
+  // }
 }
 
 // what to do when buttons are clicked
@@ -898,8 +910,8 @@ function runForagingTask() {
     tSet.currentChart = createEnvironment(ctr, settings.forageWheelCnvs);
     // 1.B) Show the cost of foraging and the number of spins still available and the status bar
     tSet.currentOffer = data.sched[cta].OfferMag[ctr][0];
-    $('#forageOfferDiv').html(stimuliLabels.offer + " <br> " + tSet.currentOffer + " points ");
-    $('#forageCostDiv').html(stimuliLabels.cost + " <br> " + data.sched[cta].Costs[ctr][0] + " points");
+    $('#forageOfferDiv').html(stimuliLabels.offer + " <br> " + tSet.currentOffer + " pts ");
+    $('#forageCostDiv').html(stimuliLabels.cost + " <br> " + data.sched[cta].Costs[ctr][0] + " pts");
     tSet.availSearches = data.sched[cta].MaxSearches[ctr][0];
     $('#forageDrawDiv').html(stimuliLabels.remaining + " <br> " + tSet.availSearches);
 
@@ -923,9 +935,9 @@ function runForagingTask() {
   }
   else {
     // Store the data
-    data.storeBehav[tSet.taskCounter] = {};
-    data.storeBehav[tSet.taskCounter].type = JSON.parse(JSON.stringify(tSet.taskType)); // we need to use this syntax because objects don't store variables, but references to variables, and so we have to make a copy of the variable to actually have it stored here
-    data.storeBehav[tSet.taskCounter].behavior = JSON.parse(JSON.stringify(tSet.behavior));
+    // data.storeBehav[tSet.taskCounter] = {};
+    // data.storeBehav[tSet.taskCounter].type = JSON.parse(JSON.stringify(tSet.taskType)); // we need to use this syntax because objects don't store variables, but references to variables, and so we have to make a copy of the variable to actually have it stored here
+    // data.storeBehav[tSet.taskCounter].behavior = JSON.parse(JSON.stringify(tSet.behavior));
     // then proceed to next object in experiment
     proceedInExpt();
   }
@@ -968,7 +980,7 @@ function createEnvironment(ctr, cnvs) {
       pieceLabel: {
         render: 'label',
         fontColor: '#000',
-        fontSize: 30,
+        fontSize: 15,
         fontStyle: 'bold',
         overlap: true,
         position: 'center'
@@ -980,7 +992,7 @@ function createEnvironment(ctr, cnvs) {
 
 function redrawSample() {
   if (!canRespond) return
-  
+
   triggerLuminousFlash()
   var ctr = tSet.trialcounter;
   var cta = tSet.task;
@@ -1123,7 +1135,7 @@ function redrawSample() {
     }
   }
   canRespond = false
-  currentStep=5
+  currentStep = 5
   waitForWebSocketMessage()
   setCircleToBlack()
 }
@@ -1189,7 +1201,7 @@ function acceptOffer() {
     }, settings.nextButtonTrialDelay); // this delay is set to be the same as the hard-coded duration of the otometer so that it appears when the update is done
   }, settings.counterDelay);
   //    runForagingTask();
-  currentStep=6
+  currentStep = 6
   canRespond = false
   setCircleToBlack()
   waitForWebSocketMessage()

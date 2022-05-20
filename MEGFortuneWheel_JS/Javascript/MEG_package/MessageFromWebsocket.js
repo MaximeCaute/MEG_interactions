@@ -45,6 +45,8 @@ function handleMessage(message){
   } else if(message == "show"){
       $('#cercle').show()
       waitForWebSocketMessage()
+  } else if(message == "next"){
+      next()
   }
 }
 
