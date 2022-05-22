@@ -397,7 +397,7 @@ th {
     display: flex;
 }
 
-#cercle {
+#fixationPoint {
     width: 20px;
     height: 20px;
     position: absolute;

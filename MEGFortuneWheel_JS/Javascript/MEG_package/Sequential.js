@@ -4,14 +4,18 @@ var canRunForagingTask = false
 resetUi()
 
 function next() {
-  if (currentStep == 4){
+  if (currentStep == 4) {
     return
-  } else if (currentStep < 4){
+  }
+  
+  if (currentStep < 4) {
     currentStep++
-  } else if (currentStep == 5){
+  } else if (currentStep == 5) {
     currentStep = 2
   }
-    updateUi()
+
+  updateUi()
+  waitForWebSocketMessage()
 }
 
 function previous() {
@@ -21,36 +25,45 @@ function previous() {
 }
 
 function sanatizeCurrentStep() {
- if (currentStep < 1) currentStep = 4
+  if (currentStep < 1) currentStep = 4
 }
 
 function updateUi() {
   console.log("updateUi")
 
-  resetUi()
+  resetUi();
 
   if (currentStep == 1) {
     $('#forageOfferDiv').show()
-    triggerLuminousFlash()
+
   } else if (currentStep == 2) {
     $('#forageCostDiv').show()
+
   } else if (currentStep == 3) {
     $('#forageDrawDiv').show()
+
   } else if (currentStep == 4) {
-    $('#forageWheelCanvas').show()
-    triggerLuminousFlash()
-    setTimeout(allowReaction, 3000)
-  } else if (currentStep==6) {
+    $('#forageWheelCanvas').show();
+    setupStep4();
+
+  } else if (currentStep == 6) {
     runForagingTask()
-    currentStep=1
-    resetUi()
+    currentStep = 1
     updateUi()
   }
 }
 
+function setupStep4() {
+  triggerLuminousFlash();
+  sendWebSocketMessage("step4 dummy data");
+  setTimeout(allowReaction, 3000);
+}
+
 function resetUi() {
+  console.log("resetUi")
+
   canRespond = false
-  $("#cercle").css("background", "black")
+  $("#fixationPoint").css("background", "black")
   $('#forageWheelCanvas').hide()
   $('#forageCostDiv').hide()
   $('#forageDrawDiv').hide()
@@ -59,12 +72,17 @@ function resetUi() {
 
 //to indicate that participant can respond
 function setCircleToGreen() {
-  $("#cercle").css("background", "green")
+  $("#fixationPoint").css("background", "green")
 }
 
 function setCircleToBlack() {
-    $("#cercle").css("background", "black")
-  }
+  $("#fixationPoint").css("background", "black")
+}
+
+function updateDraws() {
+  $('#fixationPoint').hide();
+  $('#fixationPoint').show()
+}
 
 //to avoid impulsive response
 function allowReaction() {
@@ -73,11 +91,11 @@ function allowReaction() {
 }
 
 // function to trigger luminous flash (to optimize timming record)
-function triggerLuminousFlash(){
-    $("#square").show()
-    setTimeout(hideFlash, 100)
+function triggerLuminousFlash() {
+  $("#square").show()
+  setTimeout(hideFlash, 100)
 }
 
-function hideFlash(){
-    $("#square").hide()
+function hideFlash() {
+  $("#square").hide();
 }

@@ -51,6 +51,8 @@ function loadFiles() {
   $("#acceptButton").html(stimuliLabels.accept);
   $("#nextTrialButton").html(stimuliLabels.nextTrial);
 
+  resetUi();
+
   // Set the odometer
   // once we have loaded the odometer script, we can also initialize the odometer (adding the 'odometer' class with jQuery is not enough):
   //    var t=document.getElementById("currentPoints"); //get the element we want to make into an odometer
@@ -914,6 +916,7 @@ function runForagingTask() {
     $('#forageCostDiv').html(stimuliLabels.cost + " <br> " + data.sched[cta].Costs[ctr][0] + " pts");
     tSet.availSearches = data.sched[cta].MaxSearches[ctr][0];
     $('#forageDrawDiv').html(stimuliLabels.remaining + " <br> " + tSet.availSearches);
+    $('#fixationPoint').html(tSet.availSearches);
 
     // 2) Make the button responsive and set the speed for selecting
     $('#redrawButton').show();
@@ -941,7 +944,7 @@ function runForagingTask() {
     // then proceed to next object in experiment
     proceedInExpt();
   }
-  waitForWebSocketMessage()
+  waitForWebSocketMessage();
 }
 
 // Sub-functions of the foraging task (we've kept them as separate functions, rather than within 'runForagingTask' so that we can also use them during e.g. training)
@@ -993,7 +996,9 @@ function createEnvironment(ctr, cnvs) {
 function redrawSample() {
   if (!canRespond) return
 
-  triggerLuminousFlash()
+  triggerLuminousFlash();
+  sendWebSocketMessage("redrawSample dummy data");
+
   var ctr = tSet.trialcounter;
   var cta = tSet.task;
   // disable the buttons
@@ -1148,6 +1153,7 @@ function disableButtons() {
 function substractFromSearches() {
   tSet.availSearches--;
   $('#forageDrawDiv').html(stimuliLabels.remaining + " <br> " + tSet.availSearches);
+  $('#fixationPoint').html(tSet.availSearches);
 }
 
 // function that updates the angle
@@ -1161,7 +1167,9 @@ function updateAngle(delta) {
 function acceptOffer() {
   if (!canRespond) return
 
-  triggerLuminousFlash()
+  triggerLuminousFlash();
+  sendWebSocketMessage("acceptOffer dummy data");
+
   var ctr = tSet.trialcounter;
   var cta = tSet.task;
   // HERE BEFORE AND IT WORKED FINE: tSet.trialcounter++; // ready to go on to next trial
@@ -1205,6 +1213,7 @@ function acceptOffer() {
   canRespond = false
   setCircleToBlack()
   waitForWebSocketMessage()
+  sendWebSocketMessage()
 }
 
 function store_data_long(flag) {
@@ -1284,127 +1293,3 @@ function setupForagingTask() {
   tSet.behavior.firstRespDelay = Array2D(data.sched[0].PatchMags.length, 1);
   data.pointCounter = 0;
 }
-
-// Function to replace HTML buttons by MEG button via websockets
-
-// JAVASCRIPT_ID = "js/";
-// ERROR_CODE = "404";
-// RETRY_DELAY = 20;
-
-// function waitForWebSocketMessage(){
-//   var socket = new WebSocket('ws://localhost:8000/');
-//   sendJsId(socket);
-//   listenToMessages(socket);
-// }
-
-// function sendJsId(socket){
-//   socket.addEventListener('open', function (event) {
-//     socket.send(JAVASCRIPT_ID);
-//   });
-// }
-
-// function listenToMessages(socket){
-//   socket.addEventListener('message', function (event) {
-//     answer = event.data
-//     if (answer == ERROR_CODE){
-//       retryListeningWithDelay()
-//     } else {
-//       handleMessage(answer)
-//     }
-//   });
-// }
-
-// function retryListeningWithDelay() {
-//   setTimeout(function(){waitForWebSocketMessage();}, RETRY_DELAY);
-// }
-
-// function handleMessage(message){
-//   console.log(message)
-//   if(message == "redraw" && tSet.availSearches!==0){
-//     redrawSample();
-//   } else if(message == "next_trial"){
-//     runForagingTask();
-//   } else if(message == "accept"){
-//     acceptOffer();
-//   } else if(message == "hide"){
-//     hideCircle();
-//   }
-// }
-
-// function hideCircle(){
-//   $('#test').hide();
-//   console.log('element hidden');
-// }
-
-// if (tSet.behavior.nSearches[ctr]<data.sched[cta].MaxSearches[ctr]){
-//   console.log("pizza peperoni")
-// }
-
-// console.log(tSet.availSearches)
-// console.log("Asking for next message... will be printed upon arrival")
-
-// && tSet.behavior.nSearches[ctr]<data.sched[cta].MaxSearches[ctr]
-
-// function clearServerBuffer(){
-//   var socket = new WebSocket('ws://localhost:8000/');
-//   socket.addEventListener('open', function (event) {
-//     socket.send(JAVASCRIPT_ID);
-//   });
-// }
-
-// JAVASCRIPT_ID = "js/";
-// ERROR_CODE = "404";
-// RETRY_DELAY = 20;
-
-// function waitForWebSocketMessage(){
-//   clearServerBuffer();
-
-//   var socket = new WebSocket('ws://localhost:8000/');
-//   socket.addEventListener('open', function (event) {
-//     socket.send(JAVASCRIPT_ID);
-//   });
-//   socket.addEventListener('message', function (event) {
-//     answer = event.data
-//     if (answer == ERROR_CODE){
-//       retryListeningWithDelay()
-//     } else {
-//       handleMessage(answer)
-//     }
-//   });
-// }
-
-// function retryListeningWithDelay() {
-//   setTimeout(function(){waitForWebSocketMessage();}, RETRY_DELAY)
-// }
-
-// function handleMessage(message){
-//   console.log(message)
-//   if(message == "redraw"){
-//       redrawSample()
-//   } else if(message == "next_trial"){
-//       runForagingTask()
-//   } else if(message == "accept"){
-//       acceptOffer()
-//   }
-// }
-
-// console.log("Asking for next message... will be printed upon arrival")
-
-// Here we ask to print (**after**) answer, but could be about anything.
-//tryGetMessage(console.log)
-//tryGetMessage(alert)
-
-//tryGetMessage(console.log)
-
-//tryGetMessage(function(message){
-//    console.log(message)
-//    if(message == "redraw"){
-//        redrawSample()
-//    } else if(message == "next_trial"){
-//        runForagingTask()
-//    } else if(message == "accept"){
-//        acceptOffer()
-//    }
-////}
-
-//Function to be sure the previous response doesn't remain in the buffer

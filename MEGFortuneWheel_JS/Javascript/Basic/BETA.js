@@ -17,11 +17,12 @@ exptTimeLine.push(finishExperiment);
 
 class Trials {
   constructor(number, trainingOrTask, offerMag, cost, maxSearches, patchMags, patchProbs, trialNumber)
-this.trainingOrTask= trainingOrTask;
+this.trainingOrTask= trainingOrTask)
+.....
 }
 
 //
-class Data {
+class outputData {
   constructor(trainingOrTask, currentOffer, cost, remainingSpins, patchMags, patchProbs, trialNumber, responseDelay, triggerTimingType, triggerTiming)
 }
 
