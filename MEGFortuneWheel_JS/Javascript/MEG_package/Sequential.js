@@ -55,7 +55,7 @@ function updateUi() {
 
 function setupStep4() {
   triggerLuminousFlash();
-  sendWebSocketMessage("step4 dummy data");
+  sendWebSocketMessage("step 4 dummy data wheel")
   setTimeout(allowReaction, 3000);
 }
 

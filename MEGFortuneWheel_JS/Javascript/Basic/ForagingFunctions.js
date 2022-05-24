@@ -52,7 +52,7 @@ function loadFiles() {
   $("#nextTrialButton").html(stimuliLabels.nextTrial);
 
   resetUi();
-
+  waitForWebSocketMessage()
   // Set the odometer
   // once we have loaded the odometer script, we can also initialize the odometer (adding the 'odometer' class with jQuery is not enough):
   //    var t=document.getElementById("currentPoints"); //get the element we want to make into an odometer
@@ -1213,7 +1213,6 @@ function acceptOffer() {
   canRespond = false
   setCircleToBlack()
   waitForWebSocketMessage()
-  sendWebSocketMessage()
 }
 
 function store_data_long(flag) {
