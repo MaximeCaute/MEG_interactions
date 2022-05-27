@@ -44,12 +44,7 @@ class MetaPort:
         self.file_handle = open(fname, 'w', encoding="utf-8")
         self.csvwriter = csv.writer(self.file_handle, delimiter=',')
         self.csvwriter.writerow(colnames)
-        if args["--no-meg"]:
-            print("####################################################")
-            print("# ONLY mock port in use, no actual trigger is sent #")
-            print("#          IS THIS WHAT YOU WANT???                #")
-            print("####################################################")
-        else:
+        if not args["--no-meg"]:
             try:
                 self.actual_meg = expyriment.io.ParallelPort(address=0x0378)
             except RuntimeError:
@@ -57,6 +52,11 @@ class MetaPort:
                 sys.exit(1)
             self.actual_meg.send(0)
             self.is_connected = True
+        else:
+            print("####################################################")
+            print("# ONLY mock port in use, no actual trigger is sent #")
+            print("#          IS THIS WHAT YOU WANT???                #")
+            print("####################################################")
 
     def write(self, message):
         """Writes a dict to a file, possibly writes to triggers"""
